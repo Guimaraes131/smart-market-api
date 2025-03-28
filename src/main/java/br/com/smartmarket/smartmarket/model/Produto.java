@@ -4,13 +4,13 @@ import java.util.Random;
 
 public class Produto {
     private Long id;
-    private String nome;
+    private String name;
     private double preco;
     private Setor setor;
 
-    public Produto(String nome, double preco, Setor setor) {
+    public Produto(String name, double preco, Setor setor) {
         this.id = Math.abs( new Random().nextLong() );
-        this.nome = nome;
+        this.name = name;
         this.preco = preco;
         this.setor = setor;
     }
@@ -19,8 +19,8 @@ public class Produto {
         return id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
     public double getPreco() {

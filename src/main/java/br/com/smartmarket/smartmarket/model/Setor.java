@@ -6,13 +6,13 @@ import java.util.Random;
 
 public class Setor {
     private Long id;
-    private String nome;
+    private String name;
     private String icon;
     private List<Produto> produtos;
 
-    public Setor(String nome, String icon) {
+    public Setor(String name, String icon) {
         this.id = Math.abs( new Random().nextLong() );
-        this.nome = nome;
+        this.name = name;
         this.icon = icon;
         this.produtos = new ArrayList<>();
     }
@@ -21,8 +21,8 @@ public class Setor {
         return id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
     public String getIcon() {

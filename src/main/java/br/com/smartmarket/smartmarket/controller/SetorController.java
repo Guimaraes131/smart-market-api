@@ -19,7 +19,7 @@ public class SetorController {
 
     @PostMapping("/setor")
     public ResponseEntity<Setor> create(@RequestBody Setor setor) {
-        System.out.println("Cadastrando setor " + setor.getNome());
+        System.out.println("Cadastrando setor " + setor.getName());
         repository.add(setor);
 
         return ResponseEntity.status(201).body(setor);
