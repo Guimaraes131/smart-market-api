@@ -1,8 +1,13 @@
 package br.com.smartmarket.smartmarket.controller;
 
 import br.com.smartmarket.smartmarket.model.Setor;
+import br.com.smartmarket.smartmarket.repository.SetorRepository;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,33 +15,34 @@ import java.util.List;
 @RestController
 public class SetorController {
 
-    private List<Setor> repository = new ArrayList<>();
+    @Autowired
+    private SetorRepository repository;
 
     @GetMapping("/setor")
     public List<Setor> index() {
-        return repository;
+        return repository.findAll();
     }
 
     @PostMapping("/setor")
-    public ResponseEntity<Setor> create(@RequestBody Setor setor) {
-        System.out.println("Cadastrando setor " + setor.getName());
-        repository.add(setor);
-
+    public ResponseEntity<Setor> create(@RequestBody @Valid Setor setor) {
+        repository.save(setor);
         return ResponseEntity.status(201).body(setor);
     }
 
     @GetMapping("/setor/{id}")
-    public ResponseEntity<Setor> get(@PathVariable Long id) {
-        System.out.println("Buscando setor " + id);
+    public Setor get(@PathVariable Long id) {
+        return getSetor(id);
+    }
 
-        var setor = repository.stream()
-                .filter(s -> s.getId().equals(id))
-                .findFirst();
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void destroy(@PathVariable Long id) {
+        repository.delete(getSetor(id));
+    }
 
-        if (setor.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
 
-        return ResponseEntity.ok(setor.get());
+    private Setor getSetor(Long id) {
+        return repository.findById(id)
+                .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND) );
     }
 }
